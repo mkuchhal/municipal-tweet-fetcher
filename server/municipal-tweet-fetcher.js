@@ -19,10 +19,20 @@ Meteor.startup(function () {
       function (tweet) {
         var conciseTweet = removeUnwantedTweetFields(tweet);
 
+        log.info('Received tweet: ' + tweet['text']);
+
         Tweets.insert(conciseTweet);
       }
     )
   );
+
+  stream.on('connected', function (request) {
+    log.info('Conntected to Twitter stream');
+  });
+
+  stream.on('discoonnect', function (disconnectMessage) {
+    log.warn('Disconnected from Twitter stream: ' + disconnectMessage);
+  });
 });
 
 /**
