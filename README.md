@@ -3,8 +3,8 @@ See README for municipal.
 This app is meant to be run simultaneously with 'municipal', so run it on a
 different port (since municipal by default runs on port 3000). 
 
-Also, it needs to be connected to the same DB as municipal. To achieve this,  
-use the following command:
+Also, it needs to be connected to the same DB as municipal. To do so, use the  
+following command:
 
 MONGO_URL=mongodb://localhost:27017/municipal-dev meteor --port 3002
 
