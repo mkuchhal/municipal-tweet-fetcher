@@ -14,6 +14,7 @@ var Twit = new TwitMaker({
 Meteor.startup(function () {
   var stream = Twit.stream('statuses/filter', { track: '@bmcpl' });
 
+  // When we receive a tweet event, store tweet in the DB
   stream.on('tweet',
     Meteor.bindEnvironment(
       function (tweet) {
@@ -24,11 +25,21 @@ Meteor.startup(function () {
     )
   );
 
-  stream.on('connected', function (request) {
-    log.info('Conntected to Twitter stream');
+  // Log other Twitter stream events, for diagnostic use
+
+  stream.on('connect', function (request) {
+    log.info('Connecting to Twitter stream...');
   });
 
-  stream.on('discoonnect', function (disconnectMessage) {
-    log.warn('Disconnected from Twitter stream: ' + disconnectMessage);
+  stream.on('connected', function (request) {
+    log.info('Connected to Twitter stream');
+  });
+
+  stream.on('reconnect', function (request, response, connectInterval) {
+    log.info('Reconnecting to Twitter stream');
+  });
+
+  stream.on('disconnect', function (disconnectObj) {
+    log.warn('Disconnected from Twitter stream: ' + disconnectObj);
   });
 });
